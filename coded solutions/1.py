@@ -16,7 +16,6 @@ def generate_1(): #generate a new pattern and the answer
     c=np.random.randint(0,len(list(colours.keys()))-1)
     random_matrix_numpy = np.random.randint(2, size=(3, 3))
     random_matrix_numpy[random_matrix_numpy==1]=c
-    print(c)
     return random_matrix_numpy
 
 def display(m1,m2):
