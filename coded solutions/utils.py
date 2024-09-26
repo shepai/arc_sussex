@@ -53,7 +53,7 @@ def draw_line(canvas, start, end):
             y0 += sy
 
     return canvas
-def draw_shape(canvas):
+def draw_shape(canvas,dem=3):
     height,width=canvas.shape[:]
 
     num_sides = np.random.randint(8, 25)
@@ -64,7 +64,7 @@ def draw_shape(canvas):
     center = ((height+np.random.randint(-2,2) )// 2, (width+np.random.randint(-2,2) )// 2)
 
     #Create random fluctuations in the radius
-    random_radius = radius + np.random.randint(-radius // 3, radius // 3, size=num_sides)
+    random_radius = radius + np.random.randint(-radius // dem, radius // dem, size=num_sides)
 
     #Convert polar coordinates to Cartesian
     points = [
@@ -82,4 +82,44 @@ def draw_shape(canvas):
     for i in range(len(points) - 1):
         canvas = draw_line(canvas, points[i], points[i + 1])
 
+    return canvas
+
+def add_shape(canvas, max_attempts=100):
+    """
+    Attempts to add a random shape to the canvas without it touching other shapes.
+    
+    Parameters:
+    - canvas: The 2D numpy array to which the shape will be added
+    - max_attempts: Maximum number of retries if shape overlaps with others
+
+    Returns:
+    - Modified canvas with the new shape added
+    """
+    height, width = canvas.shape
+    shape_added = False
+    attempt = 0
+
+    while not shape_added and attempt < max_attempts:
+        #Generate a random shape
+        points = draw_shape(canvas,dem=4)
+
+        #Create a temporary canvas to draw the new shape
+        temp_canvas = np.zeros_like(canvas)
+
+        #Draw the shape on the temporary canvas
+        for i in range(len(points) - 1):
+            temp_canvas = draw_line(temp_canvas, points[i], points[i + 1])
+
+        #Check for overlap with the existing canvas
+        if np.any(np.logical_and(canvas, temp_canvas)):
+            #Overlap detected, retry
+            attempt += 1
+        else:
+            #No overlap, add shape to canvas
+            canvas += temp_canvas
+            shape_added = True
+
+    if not shape_added:
+        print(f"Failed to add shape after {max_attempts} attempts.")
+    
     return canvas
