@@ -15,6 +15,6 @@ def generate_1(): #generate a new pattern and the answer
     random_matrix_numpy = np.random.randint(len(list(colours.keys()))-1, size=(2, 2))
     return random_matrix_numpy
 
-m1=generate_1()
+"""m1=generate_1()
 m2=solve_1(m1)
-display(m1,m2)
+display(m1,m2)"""
