@@ -27,6 +27,40 @@ def display(m1,m2):
     plt.tight_layout()
     plt.show()
 
+def generate_random_shape(canvas, min_sides=3, max_sides=10,SIZE=2):
+    """
+    Generates a random closed polygon with a hollow interior.
+
+    Parameters:
+    - size: Tuple representing the size of the 2D numpy array (height, width)
+    - min_sides: Minimum number of sides for the random shape (default 3)
+    - max_sides: Maximum number of sides for the random shape (default 10)
+
+    Returns:
+    - List of points defining the shape
+    """
+    height, width = np.zeros_like(canvas).shape[:]
+    #Number of sides of the polygon
+    num_sides = np.random.randint(min_sides, max_sides)
+    #Generate random points in a circle
+    angles = np.linspace(0, 2 * np.pi, num_sides, endpoint=False)
+    radius = min(height, width) // 6  + SIZE # Ensure the shape fits in the canvas
+    center = (np.random.randint(radius, height - radius), np.random.randint(radius, width - radius))
+    #Create random fluctuations in the radius
+    random_radius = radius + np.random.randint(-radius // 4, radius // 4, size=num_sides)
+    #Convert polar coordinates to Cartesian
+    points = [
+        (
+            int(center[0] + random_radius[i] * np.sin(angles[i])),
+            int(center[1] + random_radius[i] * np.cos(angles[i])),
+        )
+        for i in range(num_sides)
+    ]
+    #Close the polygon by appending the first point again
+    points.append(points[0])
+
+    return points
+
 def draw_line(canvas, start, end):
     """
     Draws a line between two points using Bresenham's line algorithm.
@@ -41,7 +75,7 @@ def draw_line(canvas, start, end):
     err = dx - dy
 
     while True:
-        canvas[x0, y0] = 1  #Mark the point as part of the shape
+        canvas[x0, y0] = 1  # Mark the point as part of the shape
         if x0 == x1 and y0 == y1:
             break
         e2 = 2 * err
@@ -51,36 +85,6 @@ def draw_line(canvas, start, end):
         if e2 < dx:
             err += dx
             y0 += sy
-
-    return canvas
-def draw_shape(canvas,dem=3):
-    height,width=canvas.shape[:]
-
-    num_sides = np.random.randint(8, 25)
-
-    #Generate random points in a circle
-    angles = np.linspace(0, 2 * np.pi, num_sides, endpoint=False)
-    radius = min(height, width) // 3  #Ensure the shape fits in the canvas
-    center = ((height+np.random.randint(-2,2) )// 2, (width+np.random.randint(-2,2) )// 2)
-
-    #Create random fluctuations in the radius
-    random_radius = radius + np.random.randint(-radius // dem, radius // dem, size=num_sides)
-
-    #Convert polar coordinates to Cartesian
-    points = [
-        (
-            int(center[0] + random_radius[i] * np.sin(angles[i])),
-            int(center[1] + random_radius[i] * np.cos(angles[i])),
-        )
-        for i in range(num_sides)
-    ]
-
-    #Close the polygon by appending the first point again
-    points.append(points[0])
-
-    #Draw the shape outline on the canvas
-    for i in range(len(points) - 1):
-        canvas = draw_line(canvas, points[i], points[i + 1])
 
     return canvas
 
@@ -101,15 +105,12 @@ def add_shape(canvas, max_attempts=100):
 
     while not shape_added and attempt < max_attempts:
         #Generate a random shape
-        points = draw_shape(canvas,dem=4)
-
+        points = generate_random_shape(canvas,SIZE=np.random.randint(1,2))
         #Create a temporary canvas to draw the new shape
         temp_canvas = np.zeros_like(canvas)
-
         #Draw the shape on the temporary canvas
         for i in range(len(points) - 1):
             temp_canvas = draw_line(temp_canvas, points[i], points[i + 1])
-
         #Check for overlap with the existing canvas
         if np.any(np.logical_and(canvas, temp_canvas)):
             #Overlap detected, retry
@@ -118,8 +119,13 @@ def add_shape(canvas, max_attempts=100):
             #No overlap, add shape to canvas
             canvas += temp_canvas
             shape_added = True
-
     if not shape_added:
         print(f"Failed to add shape after {max_attempts} attempts.")
-    
+    return canvas
+
+
+def plot_points(canvas,points):
+    for i in range(len(points) - 1):
+        canvas = draw_line(canvas, points[i], points[i + 1])
+
     return canvas
