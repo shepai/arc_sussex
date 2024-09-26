@@ -16,7 +16,8 @@ def solve_4(pattern): #solve given a pattern
 def generate_4(): #generate a new pattern and the answer
     c=np.random.randint(0,len(list(colours.keys()))-1)
     canvas = np.zeros((np.random.randint(8,20), np.random.randint(8,20)))
-    canvas=draw_shape(canvas)
+    points=generate_random_shape(canvas,SIZE=np.random.randint(1,3))
+    canvas=plot_points(canvas,points)
     canvas[canvas==1]=c
     c1=0
     t=1
