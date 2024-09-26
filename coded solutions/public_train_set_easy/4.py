@@ -21,12 +21,11 @@ def generate_4(): #generate a new pattern and the answer
     canvas[canvas==1]=c
     c1=0
     t=1
-    if c1==t: t=2 #prevent being same colour
-    if np.random.randint(0,3)==3: #random chance of another shape
-        pass
-    c=np.random.randint(0,len(list(colours.keys()))-1)
-    canvas=add_shape(canvas)
-    canvas[canvas==t]=c
+    if c1==t: t=2#prevent being same colour
+    if np.random.randint(0,3)==2: #random chance of another shape
+        c=np.random.randint(0,len(list(colours.keys()))-1)
+        canvas=add_shape(canvas)
+        canvas[canvas==t]=c
     return canvas
 
 
