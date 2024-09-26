@@ -8,8 +8,9 @@ def solve_1(pattern): #solve given a pattern
     # @returns matrix
     assert pattern.shape==(3,3), "Incorrect input size "+str(pattern.shape)
     new=np.zeros((9,9))
-    print(np.argwhere(pattern>0)[:,])
-    furthest=np.max(np.argwhere(pattern>0)[:,])
+    for i in range(3):
+        for j in range(3):
+            if pattern[i][j]!=0: new[3*i:(i+1)*3,3*j:(j+1)*3]=pattern.copy()
     return new
 def generate_1(): #generate a new pattern and the answer
     c=np.random.randint(0,len(list(colours.keys()))-1)
@@ -18,6 +19,6 @@ def generate_1(): #generate a new pattern and the answer
     return random_matrix_numpy
 
 
-m1=generate_1()
+"""m1=generate_1()
 m2=solve_1(m1)
-display(m1,m2)
+display(m1,m2)"""
