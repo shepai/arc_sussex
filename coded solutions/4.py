@@ -13,12 +13,13 @@ def solve_4(pattern): #solve given a pattern
 
 def generate_4(): #generate a new pattern and the answer
     c=np.random.randint(0,len(list(colours.keys()))-1)
-    random_matrix_numpy = np.random.randint(2, size=(np.random.randint(8,20), np.random.randint(8,20)))
-    random_matrix_numpy[random_matrix_numpy==1]=c
-    return random_matrix_numpy
+    canvas = np.zeros((np.random.randint(8,20), np.random.randint(8,20)))
+    canvas=draw_shape(canvas)
+    canvas[canvas==1]=c
+    return canvas
 
 
 
-"""m1=generate_1()
-m2=solve_1(m1)
+"""m1=generate_4()
+m2=solve_4(m1)
 display(m1,m2)"""
