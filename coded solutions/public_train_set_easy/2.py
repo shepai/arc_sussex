@@ -29,9 +29,16 @@ def generate_2(): #generate a new pattern and the answer
     h=np.random.randint(8,20)
     w=np.random.randint(8,20)
     canvas = np.zeros((h,w))
-    points=generate_random_shape(canvas,SIZE=min([h,w])//4)
+    c=np.random.randint(0,len(list(colours.keys()))-1)
+    canvas = np.zeros((np.random.randint(8,20), np.random.randint(8,20)))
+    points=generate_random_shape(canvas,SIZE=np.random.randint(1,3))
     canvas=plot_points(canvas,points)
-    canvas[canvas!=0]=3
+    canvas[canvas==1]=3
+
+    if np.random.randint(0,3)==2: #random chance of another shape
+        c=np.random.randint(0,len(list(colours.keys()))-1)
+        canvas=add_shape(canvas)
+        canvas[canvas==1]=3
     return canvas
 
 m1=generate_2()
