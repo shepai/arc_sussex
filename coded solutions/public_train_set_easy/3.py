@@ -18,6 +18,6 @@ def generate_3(): #generate a new pattern and the answer
     return random_matrix_numpy
 
 
-"""m1=generate_1()
-m2=solve_1(m1)
+"""m1=generate_3()
+m2=solve_3(m1)
 display(m1,m2)"""
