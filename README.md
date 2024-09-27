@@ -1,6 +1,7 @@
 # arc_sussex
 Development area of coded solutions for the Sussex attempt at the AGI challenge
 
+## Conventions
 Conventions for coded solutions is to have a generate and a solve function, with the name of the problem. For exmaple this would be the structure for problem 1:
 
 ```python
@@ -25,6 +26,8 @@ colours={'black':0,'blue':1,'red':2,'green':3,'yellow':4,'gray':5,'pink':6,'oran
 example_matrix = np.zeros((3,3))
 ```
 
+## Utilities
+There is a file ```utiles.py``` which can be imported to give useful functionality such as display images, generate shapes, add shapes to an existing canvas. Add more functions for useful functionality that comes up a lot in the challenges.
 
 To display you input image and output, make use of this display function:
 
