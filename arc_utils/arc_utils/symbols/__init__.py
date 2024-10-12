@@ -15,7 +15,7 @@ def shift(canvas,row,col,vector):
         newcanvas[:, col] = 0
         newcanvas[:, col + vector[1]] = canvas[:, col]
     return newcanvas
-        
+
 
 if __name__ == "__main__":
     #testing 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     canvas_=shift(canvas,-1,3,[0,4])
     assert np.sum(canvas_[:,3])==0, "Has not wiped the canvas"
     assert np.sum(canvas_[:,7])!=0, "Has not moved canvas"
-    canvas_=shift(canvas,-1,3,[0,4])
-    assert np.sum(canvas_[:,3])==0, "Has not wiped the canvas"
-    assert np.sum(canvas_[:,7])!=0, "Has not moved canvas"
+    canvas_=shift(canvas,1,3,[2,2])
+    assert canvas_[1,3]==0, "Has not wiped the canvas"
+    assert canvas_[1+2,3+2]!=0, "Has not moved canvas"
     print("Shift SUCCESS\n")
