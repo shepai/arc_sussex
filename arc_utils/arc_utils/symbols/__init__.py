@@ -18,7 +18,8 @@ def shift(canvas,row,col,vector):
         newcanvas[:, col] = 0
         newcanvas[:, col + vector[1]] = canvas[:, col]
     return newcanvas
-
+def count_colours(canvas,colour):
+    pass
 
 if __name__ == "__main__":
     #testing 
