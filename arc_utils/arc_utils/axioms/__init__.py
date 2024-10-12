@@ -20,33 +20,8 @@ def shift(canvas,row,col,vector):
         newcanvas[:, col + vector[1]] = canvas[:, col]
     return newcanvas
 def shrink_outline(matrix, x):
-    rows, cols = matrix.shape
-    binary_matrix = (matrix > 0).astype(int)
-    
-    # Function to check if a pixel is on the boundary of the shape
-    def is_outline(r, c):
-        if binary_matrix[r][c] == 0:
-            return False
-        # Check neighbors for a background pixel (0)
-        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            nr, nc = r + dr, c + dc
-            if 0 <= nr < rows and 0 <= nc < cols and binary_matrix[nr][nc] == 0:
-                return True
-        return False
-    
-    for _ in range(x):
-        # Mark the pixels that are part of the outline
-        outline_pixels = []
-        for r in range(1, rows - 1):
-            for c in range(1, cols - 1):
-                if is_outline(r, c):
-                    outline_pixels.append((r, c))
+    pass
 
-        # Remove the outline pixels
-        for r, c in outline_pixels:
-            binary_matrix[r][c] = 0
-
-    return binary_matrix
 def count_colours(canvas,colour):
     pass
 
