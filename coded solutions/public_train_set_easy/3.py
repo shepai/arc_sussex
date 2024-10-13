@@ -1,7 +1,8 @@
 import numpy as np
-from arc_utils import display, COLOURS
+from arc_utils import display, COLOURS, solution_for
 
 
+@solution_for('017c7c7b')
 def solve_3(pattern):  # solve given a pattern
     # @param pattern --> matrix
     # @returns matrix

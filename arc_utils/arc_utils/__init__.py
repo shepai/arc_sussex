@@ -5,4 +5,6 @@ from .main import (
     draw_line,
     add_shape,
     plot_points,
+    solution_for,
+    solutions,
 )

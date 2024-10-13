@@ -1,7 +1,8 @@
 import numpy as np
-from arc_utils import display
+from arc_utils import display, solution_for
 
 
+@solution_for('3bd67248')
 def solve_84(pattern):
     assert pattern.shape[0] == pattern.shape[1], f"Incorrect input size {pattern.shape}"
     new = pattern.copy()

@@ -1,7 +1,7 @@
 import numpy as np
-from arc_utils import display, COLOURS
+from arc_utils import display, COLOURS, solution_for
 
-
+@solution_for('007bbfb7')
 def solve_1(pattern):
     assert pattern.shape == (3, 3), f"Incorrect input size {pattern.shape}"
     new = np.zeros((9, 9))

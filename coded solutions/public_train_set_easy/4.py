@@ -1,7 +1,8 @@
 import numpy as np
-from arc_utils import display, COLOURS, add_shape, generate_random_shape, plot_points
+from arc_utils import display, COLOURS, add_shape, generate_random_shape, plot_points, solution_for
 
 
+@solution_for('025d127b')
 def solve_4(pattern):  # solve given a pattern
     # @param pattern --> matrix
     # @returns matrix

@@ -1,4 +1,4 @@
-from arc_utils import COLOURS, display, generate_random_shape, plot_points, add_shape
+from arc_utils import COLOURS, display, generate_random_shape, plot_points, add_shape, solution_for
 import numpy as np
 
 
@@ -19,6 +19,7 @@ def fill(canvas, point):
     return canvas
 
 
+@solution_for('00d62c1b')
 def solve_2(pattern):  # solve given a pattern
     # @param pattern --> matrix
     # @returns matrix

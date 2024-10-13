@@ -166,3 +166,15 @@ def plot_points(canvas, points):
         canvas = draw_line(canvas, points[i], points[i + 1])
 
     return canvas
+
+
+# Setting up a dictionary that will map puzzle IDs to solution functions
+solutions = {}
+
+def solution_for(puzzle_id):
+    """Decorator. Registers a function as a solution to the puzzle
+       given by puzzle_id."""
+    def solution_registrator(f):
+        solutions[puzzle_id] = f
+        return f
+    return solution_registrator
