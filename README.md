@@ -1,6 +1,18 @@
 # arc_sussex
 Development area of coded solutions for the Sussex attempt at the AGI challenge
 
+## Getting Started 
+
+```sh
+$ git clone https://github.com/shepai/arc_sussex
+$ cd arc_sussex 
+$ python -m venv .venv && source .venv/bin/activate 
+$ pip install -r requirements.txt 
+```
+
+Most of the solutions so far make use of the utility functions provided by the arc_utils pacakge. In order to get started with development, you may need to build this package manually. Simply run `pip install .` inside the `arc_utils` directory from within your virtual environment. 
+
+
 ## Conventions
 Conventions for coded solutions is to have a generate and a solve function, with the name of the problem. For exmaple this would be the structure for problem 1:
 
@@ -24,41 +36,4 @@ import numpy as np
 
 colours={'black':0,'blue':1,'red':2,'green':3,'yellow':4,'gray':5,'pink':6,'orange':7,'light-blue':8,'maroon':9}
 example_matrix = np.zeros((3,3))
-```
-
-## Utilities
-There is a file ```utiles.py``` which can be imported to give useful functionality such as display images, generate shapes, add shapes to an existing canvas. Add more functions for useful functionality that comes up a lot in the challenges.
-
-To display you input image and output, make use of this display function:
-
-```python
-
-def display(m1,m2):
-    import matplotlib
-    matplotlib.use('TkAgg')
-    import matplotlib.pyplot as plt
-    from matplotlib.colors import ListedColormap, BoundaryNorm
-
-    color_list = ['black', 'blue', 'red', 'green', 'yellow', 'gray',
-                'pink', 'orange', 'lightblue', 'maroon']
-
-    # Create a colormap using these colors
-    cmap = ListedColormap(color_list)
-    norm = BoundaryNorm(boundaries=np.arange(-0.5, 10, 1), ncolors=10)
-
-    fig, axes = plt.subplots(1, 2, figsize=(8, 4))
-
-    #plotting the first matrix
-    axes[0].imshow(m1, cmap=cmap, norm=norm)
-    axes[0].set_title("Input")
-    axes[0].axis('off')
-
-    #plotting the second matrix
-    axes[1].imshow(m2, cmap=cmap, norm=norm)
-    axes[1].set_title("Output")
-    axes[1].axis('off')
-
-    plt.tight_layout()
-    plt.show()
-
 ```

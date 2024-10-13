@@ -1,18 +1,20 @@
 import numpy as np
-from utils import *
-colours={'black':0,'blue':1,'red':2,'green':3,'yellow':4,'gray':5,'pink':6,'orange':7,'light-blue':8,'maroon':9}
+
+from arc_utils import display
+
 
 def solve_82(pattern):
     assert pattern.shape[0] == 6, f"Incorrect input size {pattern.shape}"
     new = pattern.copy()
     for i in range(2):
-      mask = new[2*i,:] != 0
-      new[2*i+2,mask] = new[2*i,mask]
+        mask = new[2 * i, :] != 0
+        new[2 * i + 2, mask] = new[2 * i, mask]
     for i in range(3):
-        for j in range(1,pattern.shape[1]-1):
-          if new[2*i,j] != 0:
-            new[2 * i + 1, [j - 1, j + 1]] = new[2 * i, j]
+        for j in range(1, pattern.shape[1] - 1):
+            if new[2 * i, j] != 0:
+                new[2 * i + 1, [j - 1, j + 1]] = new[2 * i, j]
     return new
+
 
 def generate_82():
     # x-axis could be any size; I picked 30 as max
@@ -24,6 +26,8 @@ def generate_82():
     grid[0, np.sort(pos[:num_block])] = np.random.randint(1, 10, size=num_block)
     return grid
 
-"""m1=generate_1()
-m2=solve_1(m1)
-display(m1,m2)"""
+
+if __name__ == "__main__":
+    m1 = generate_82()
+    m2 = solve_82(m1)
+    display(m1, m2)
