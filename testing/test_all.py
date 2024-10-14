@@ -1,7 +1,7 @@
 import os, shutil, subprocess, sys
 import pandas as pd
 from pathlib   import Path
-from arc_utils import puzzles, solutions
+from arc_utils import puzzles, solutions, puzzle_numbers
 
 
 
@@ -60,16 +60,19 @@ run_coded_solutions(dir2)
 evaluation_results = []
 
 for puzzle_id, puzzle_solutions in solutions.items():
+    puzzle_number = puzzle_numbers[puzzle_id]
     puzzle = puzzles[puzzle_id]
     for solution in puzzle_solutions:
-        evaluation_results.append(solution.evaluate_for(puzzle))
+        evaluation_results.append([puzzle_number]+solution.evaluate_for(puzzle))
+
+evaluation_results.sort()
 
 def color_boolean(val):
     if isinstance(val, bool):
         return f"\033[32mPass\033[00m" if val else f"\033[31mFail\033[00m"
     return f"\033[00m{val}\033[00m"
 
-columns = [color_boolean(h) for h in ['Puzzle ID','Solution ID','Training','Testing']]
+columns = [color_boolean(h) for h in ['Puzzle number','Puzzle ID','Solution ID','Training','Testing']]
 
 df = pd.DataFrame(evaluation_results, columns=columns)
 df = df.map(color_boolean)

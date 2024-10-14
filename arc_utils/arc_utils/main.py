@@ -204,6 +204,10 @@ training_puzzles   = get_puzzles(os.path.join(project_dir, 'data/training'))
 evaluation_puzzles = get_puzzles(os.path.join(project_dir, 'data/evaluation'))
 puzzles            = training_puzzles | evaluation_puzzles
 
+puzzle_numbers = {}
+for puzzle_set in [training_puzzles, evaluation_puzzles]:
+    for n,id in enumerate(sorted(puzzle_set),start=1):
+        puzzle_numbers[id]=n
 
 
 class Solution:
