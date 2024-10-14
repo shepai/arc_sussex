@@ -46,7 +46,7 @@ def run_coded_solutions(directory):
             script_content = file.read()
         
         try:    exec(script_content, {"__name__": "__not_main__"})
-        except: print('Encountered error.')
+        except: print(f'Encountered error in file {short_filepath}.')
 
 dir1 = os.path.join(project_dir, 'coded solutions', 'public_train_set_easy')
 dir2 = os.path.join(project_dir, 'coded solutions', 'public_eval_set_hard')
