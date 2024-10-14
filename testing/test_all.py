@@ -1,6 +1,7 @@
 import os, shutil, subprocess, sys
+import pandas as pd
 from pathlib   import Path
-from arc_utils import solutions
+from arc_utils import puzzles, solutions
 
 
 
@@ -24,8 +25,9 @@ def fetch_data():
     if os.name == 'nt': subprocess.run(['rmdir', '/S', '/Q', clone_dir], shell=True)
     else:               subprocess.run(['rm', '-rf', clone_dir])
 
-
 fetch_data()
+
+
 
 
 
@@ -38,17 +40,37 @@ def run_coded_solutions(directory):
         filepath       = os.path.join(directory, filename)
         short_filepath = Path(*Path(filepath).parts[-2:])
         
-        print(f"Running {short_filepath}...")
+        #print(f"Running {short_filepath}...")
         
         with open(filepath, 'r') as file:
             script_content = file.read()
         
-        exec(script_content, {"__name__": "__not_main__"})
-        #try:    exec(script_content, {"__name__": "__not_main__"})
-        #except: print('Encountered error.')
-
+        try:    exec(script_content, {"__name__": "__not_main__"})
+        except: print('Encountered error.')
 
 dir1 = os.path.join(project_dir, 'coded solutions', 'public_train_set_easy')
 dir2 = os.path.join(project_dir, 'coded solutions', 'public_eval_set_hard')
 run_coded_solutions(dir1)
 run_coded_solutions(dir2)
+
+
+
+
+
+evaluation_results = []
+
+for puzzle_id, puzzle_solutions in solutions.items():
+    puzzle = puzzles[puzzle_id]
+    for solution in puzzle_solutions:
+        evaluation_results.append(solution.evaluate_for(puzzle))
+
+def color_boolean(val):
+    if isinstance(val, bool):
+        return f"\033[32mPass\033[00m" if val else f"\033[31mFail\033[00m"
+    return f"\033[00m{val}\033[00m"
+
+columns = [color_boolean(h) for h in ['Puzzle ID','Solution ID','Training','Testing']]
+
+df = pd.DataFrame(evaluation_results, columns=columns)
+df = df.map(color_boolean)
+print('\n'+df.to_string(index=False, col_space=24)+'\n')

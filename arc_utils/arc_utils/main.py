@@ -1,4 +1,4 @@
-import matplotlib
+import matplotlib, os, json
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, BoundaryNorm
 import numpy as np
@@ -168,13 +168,63 @@ def plot_points(canvas, points):
     return canvas
 
 
-# Setting up a dictionary that will map puzzle IDs to solution functions
+#######################################################
+
+script_dir         = os.path.dirname(os.path.abspath(__file__))
+project_dir        = os.path.join(script_dir,'..','..')
+
+class Example(dict):
+    """An input-output pair in a puzzle."""
+    def __init__(example, data):
+        super().__init__(data)
+        example.input  = np.array(example['input'])
+        example.output = np.array(example['output'])
+
+class Puzzle(dict):
+    """A collection of both training and testing input-output pairs that
+       constitute a single puzzle."""
+    
+    def __init__(puzzle, fname):
+        super().__init__(json.load(open(fname)))
+        puzzle.id    = os.path.basename(fname).split('.')[0]
+        puzzle.train = [Example(e) for e in puzzle['train']]
+        puzzle.test  = [Example(e) for e in puzzle['test']]
+    
+    def __repr__(puzzle):
+        return f'<Puzzle {puzzle.id}>'
+
+def get_puzzles(directory):
+    output = {}
+    for fname in os.listdir(directory):
+        puzzle = Puzzle(os.path.join(directory, fname))
+        output[puzzle.id] = puzzle
+    return output
+
+training_puzzles   = get_puzzles(os.path.join(project_dir, 'data/training'))
+evaluation_puzzles = get_puzzles(os.path.join(project_dir, 'data/evaluation'))
+puzzles            = training_puzzles | evaluation_puzzles
+
+
+
+class Solution:
+    def __init__(self, id, function, puzzle_id=''):
+        self.id = id
+        self.function = function
+        self.puzzle_id = puzzle_id
+    def evaluate_for(self, puzzle):
+        passes_training = all(np.array_equal(self.function(example.input), example.output) for example in puzzle.train)
+        passes_testing  = all(np.array_equal(self.function(example.input), example.output) for example in puzzle.test)
+        return [puzzle.id, self.id, passes_training, passes_testing]
+
+# Setting up a dictionary that will map puzzle IDs to Solution objects
 solutions = {}
 
-def solution_for(puzzle_id):
+def solution_for(puzzle_id, solution_id=''):
     """Decorator. Registers a function as a solution to the puzzle
-       given by puzzle_id."""
+       given by puzzle_id. solution_id may be specified as well if
+       the puzzle has multiple solutions."""
     def solution_registrator(f):
-        solutions[puzzle_id] = f
+        if not puzzle_id in solutions: solutions[puzzle_id] = []
+        solutions[puzzle_id].append(Solution(solution_id, f, puzzle_id))
         return f
     return solution_registrator

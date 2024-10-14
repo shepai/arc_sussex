@@ -9,8 +9,8 @@ def solve_4(pattern):  # solve given a pattern
     new = np.zeros_like(pattern)
     points = np.argwhere(pattern > 0)[:,]
     furthest = np.max(np.argwhere(pattern > 0)[:,])
-    print(points)
-    print(furthest)
+    #print(points)
+    #print(furthest)
     return new
 
 
