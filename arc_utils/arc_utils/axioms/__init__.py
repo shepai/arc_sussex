@@ -1,6 +1,9 @@
 import numpy as np
 from scipy.ndimage import binary_erosion
 
+from arc_utils.arc_utils.axioms.find_rectangles import get_largest_rectangle
+
+
 def changecolour(canvas,from_,to,ind=[]):
     if len(ind)==0:
         canvas[np.where(canvas==from_)]=to
@@ -61,3 +64,9 @@ if __name__ == "__main__":
     # Test the function by shrinking the outline by 1
     shrunk_matrix = shrink_outline(matrix, 1)
     print(shrunk_matrix)
+
+
+def get_2x2_output_of_largest_rectangle_color(board):
+    (top, bottom, left, right) = get_largest_rectangle(board)
+    color = board[top, left]
+    return np.full((2, 2), color)
