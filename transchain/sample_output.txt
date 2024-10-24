@@ -1,0 +1,33 @@
+Pattern:
+
+The most consistent pattern is that the first \( n-2 \) rows remain unchanged in the output while the last row (or rows) undergo a transformation where zeros become specific non-zero digits based on certain criteria derived from the input matrix positions or other patterns.
+
+
+Python code for performing the transformation and reversing it:
+
+
+import numpy as np
+
+def f(I: np.ndarray, O: np.ndarray) -> tuple:
+    # Extract the unchanged rows from the top
+    unchanged_rows = I[:-1]  # Assuming at least one row is to change.
+
+    # Extract the last row that changes
+    changing_rows = I[-1:]  # Get the last row
+
+    # Form new input and output matrices
+    new_input = np.vstack((unchanged_rows, changing_rows))
+    new_output = np.vstack((unchanged_rows, O[-1:]))
+
+    return new_input, new_output
+
+def g(IPrime: np.ndarray, OPrime: np.ndarray) -> tuple:
+    # Extract unchanged rows + reconstructed changed rows
+    unchanged_rows = IPrime[:-1]
+    last_changing_row = OPrime[-1:]  # Get the last row from the output
+
+    # Form the original input and output matrices
+    original_input = np.vstack((unchanged_rows, last_changing_row))
+    original_output = np.vstack((unchanged_rows, last_changing_row))
+
+    return original_input, original_output
