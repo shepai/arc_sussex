@@ -181,7 +181,7 @@ class Matrix(np.ndarray):
         obj = np.asarray(input_array).view(cls)
         return obj
     
-    def size(matrix):
+    def size_str(matrix):
         height, width = matrix.shape
         return f'{width}x{height}'
     
@@ -199,8 +199,8 @@ class Example(dict):
         example.output = Matrix(example['output'])
 
     def __repr__(example):
-        return f"Input ({example.input.size()}):\n\n{example.input}\n\n" + \
-               f"Output ({example.output.size()}):\n\n{example.output}"
+        return f"Input ({example.input.size_str()}):\n\n{example.input}\n\n" + \
+               f"Output ({example.output.size_str()}):\n\n{example.output}"
 
 class Puzzle(dict):
     """A collection of both training and testing input-output pairs that
