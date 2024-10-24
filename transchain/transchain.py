@@ -35,7 +35,7 @@ response = client.chat.completions.create(
         "role": "user",
         "content": prompt1,
     }],
-    model="gpt-4o-mini",
+    model="gpt-4o",
 )
 
 summary = response.to_dict()['choices'][0]['message']['content'].split('<summary>')[1].split('</summary>')[0]
@@ -100,7 +100,7 @@ response = client.chat.completions.create(
         "role": "user",
         "content": prompt2,
     }],
-    model="gpt-4o-mini",
+    model="gpt-4o",
 )
 
 python = response.to_dict()['choices'][0]['message']['content'].split('<python>')[1].split('</python>')[0]

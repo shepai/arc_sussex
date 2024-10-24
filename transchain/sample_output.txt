@@ -1,6 +1,8 @@
 Pattern:
 
-The most consistent pattern is that the first \( n-2 \) rows remain unchanged in the output while the last row (or rows) undergo a transformation where zeros become specific non-zero digits based on certain criteria derived from the input matrix positions or other patterns.
+
+The most consistent pattern observed is that the bottom-most completely zero row in the input matrix is filled with a number centered in the middle column in the output matrix. The specific row affected is incremented towards the top as the matrix size increases. In essence, starting from the bottom row in a matrix, the first complete row of zeros from the input is modified to have a non-zero number at the center of the row in the output matrix.
+
 
 
 Python code for performing the transformation and reversing it:
@@ -8,26 +10,33 @@ Python code for performing the transformation and reversing it:
 
 import numpy as np
 
-def f(I: np.ndarray, O: np.ndarray) -> tuple:
-    # Extract the unchanged rows from the top
-    unchanged_rows = I[:-1]  # Assuming at least one row is to change.
+def f(I, O):
+    """ Simplifies the input-output matrix pair by removing the patterned output transformation. """
+    IPrime = np.copy(I)
+    OPrime = np.copy(O)
 
-    # Extract the last row that changes
-    changing_rows = I[-1:]  # Get the last row
+    # Find the bottom-most full zero row in OPrime
+    for row_index in range(len(OPrime) - 1, -1, -1):
+        if np.all(OPrime[row_index] == 0):
+            # Restore the center element to zero
+            middle_index = len(OPrime[row_index]) // 2
+            OPrime[row_index][middle_index] = 0
+            return IPrime, OPrime
 
-    # Form new input and output matrices
-    new_input = np.vstack((unchanged_rows, changing_rows))
-    new_output = np.vstack((unchanged_rows, O[-1:]))
+    return IPrime, OPrime
 
-    return new_input, new_output
 
-def g(IPrime: np.ndarray, OPrime: np.ndarray) -> tuple:
-    # Extract unchanged rows + reconstructed changed rows
-    unchanged_rows = IPrime[:-1]
-    last_changing_row = OPrime[-1:]  # Get the last row from the output
+def g(IPrime, OPrime):
+    """ Recreates the original pattern by applying the transformation based on the pattern. """
+    I = np.copy(IPrime)
+    O = np.copy(OPriюe)
 
-    # Form the original input and output matrices
-    original_input = np.vstack((unchanged_rows, last_changing_row))
-    original_output = np.vstack((unchanged_rows, last_changing_row))
+    # Find the bottom-most full zero row in I
+    for row_index in range(len(I) - 1, -1, -1):
+        if np.all(I[row_index] == 0):
+            # Modify the center element of this row in O
+            middle_index = len(I[row_index]) // 2
+            O[row_index][middle_index] = 2  # Assuming the pattern uses '2' as a placeholder non-zero
+            return I, O
 
-    return original_input, original_output
+    return I, O
