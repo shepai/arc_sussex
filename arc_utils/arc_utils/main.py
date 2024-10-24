@@ -173,12 +173,34 @@ def plot_points(canvas, points):
 script_dir         = os.path.dirname(os.path.abspath(__file__))
 project_dir        = os.path.join(script_dir,'..','..')
 
+class Matrix(np.ndarray):
+
+    """Provides methods for manipulating matrices of colors."""
+    
+    def __new__(cls, input_array):
+        obj = np.asarray(input_array).view(cls)
+        return obj
+    
+    def size(matrix):
+        height, width = matrix.shape
+        return f'{width}x{height}'
+    
+    def __str__(matrix):
+        """Stringifies the matrix contents in a human-readable format."""
+        return '\n'.join(''.join(map(str,line)) for line in matrix)
+
 class Example(dict):
+
     """An input-output pair in a puzzle."""
+
     def __init__(example, data):
         super().__init__(data)
-        example.input  = np.array(example['input'])
-        example.output = np.array(example['output'])
+        example.input  = Matrix(example['input'])
+        example.output = Matrix(example['output'])
+
+    def __repr__(example):
+        return f"Input ({example.input.size()}):\n\n{example.input}\n\n" + \
+               f"Output ({example.output.size()}):\n\n{example.output}"
 
 class Puzzle(dict):
     """A collection of both training and testing input-output pairs that
@@ -192,6 +214,11 @@ class Puzzle(dict):
     
     def __repr__(puzzle):
         return f'<Puzzle {puzzle.id}>'
+    
+    def worked_examples(puzzle):
+        separator = f"\n\n{'='*15}\n\n"
+        body = separator.join(f'Pair #{i}\n\n{e}' for (i,e) in enumerate(puzzle.train, start=1))
+        return separator + body + separator
 
 def get_puzzles(directory):
     output = {}

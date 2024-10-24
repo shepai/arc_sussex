@@ -9,4 +9,6 @@ from .main import (
     puzzle_numbers,
     solution_for,
     solutions,
+    training_puzzles,
+    evaluation_puzzles,
 )

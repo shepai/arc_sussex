@@ -3,3 +3,4 @@
 /arc_utils/arc_utils.egg-info
 /arc_utils/build
 /.venv
+*/openai_api_key.json
