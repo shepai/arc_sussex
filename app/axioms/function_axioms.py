@@ -80,9 +80,12 @@ def predict_output_grid_size(input: Puzzle) -> tuple:
         diff = differences[0]
         return (test_input.shape[0]+diff, test_input.shape[1]+diff)
 
-    return test_input.shape
+
+    return test_input.shape # input = output
 
     
+def detect_repeating_patterns(input):
+    pass
 
 def test_predict_output_grid_size(input: Puzzle) -> bool:
 
@@ -93,9 +96,9 @@ if __name__ == "__main__":
     # Testing for output grid size
     training_puzzles   = get_puzzles('data/training')
     evaluation_puzzles = get_puzzles('data/evaluation')
-    puzzles = training_puzzles #| evaluation_puzzles
+    puzzles = training_puzzles | evaluation_puzzles
 
-    # inspect(puzzles['3618c87e'])
+    inspect(puzzles['3618c87e'])
 
     results = []
     for puzzle in puzzles.values():
@@ -119,7 +122,5 @@ Accuracy: 610/800 (training + evaluation)
 Common Multiplicative Ratio + Fixed Output Size + Common Fixed Difference:
 Accuracy: 317/400 (just training)
 Accuracy: 632/800 (training + evaluation)
-
-
 
 '''
